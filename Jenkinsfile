@@ -1,7 +1,5 @@
 pipeline {
 agent any
-
-```
 environment {
     APP_NAME = "kitty-app"
 }
