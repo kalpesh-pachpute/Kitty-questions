@@ -11,7 +11,7 @@ stages {
     stage('Checkout Code') {
         steps {
             git branch: 'main',
-            url: 'https://github.com/USERNAME/REPOSITORY.git'
+            url: 'https://github.com/kalpesh-pachpute.git'
         }
     }
 
