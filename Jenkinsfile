@@ -1,53 +1,49 @@
 pipeline {
-agent any
-environment {
-    APP_NAME = "kitty-app"
-}
+    agent any
 
-stages {
+    stages {
 
-    stage('Checkout Code') {
-        steps {
-            git branch: 'main',
-            url: 'https://github.com/kalpesh-pachpute/Kitty-questions'
+        stage('Checkout Code') {
+            steps {
+                git branch: 'main',
+                url: 'https://github.com/kalpesh-pachpute/Kitty-questions'
+            }
+        }
+
+        stage('Verify Docker') {
+            steps {
+                bat 'docker --version'
+                bat 'docker compose version'
+            }
+        }
+
+        stage('Build Containers') {
+            steps {
+                bat 'docker compose build'
+            }
+        }
+
+        stage('Deploy Containers') {
+            steps {
+                bat 'docker compose down'
+                bat 'docker compose up -d'
+            }
+        }
+
+        stage('Verify Deployment') {
+            steps {
+                bat 'docker ps'
+            }
         }
     }
 
-    stage('Verify Docker') {
-        steps {
-            sh 'docker --version'
-            sh 'docker compose version'
+    post {
+        success {
+            echo 'Deployment Successful'
+        }
+
+        failure {
+            echo 'Deployment Failed'
         }
     }
-
-    stage('Build Containers') {
-        steps {
-            sh 'docker compose build'
-        }
-    }
-
-    stage('Deploy Containers') {
-        steps {
-            sh 'docker compose down'
-            sh 'docker compose up -d'
-        }
-    }
-
-    stage('Verify Deployment') {
-        steps {
-            sh 'docker ps'
-        }
-    }
-}
-
-post {
-    success {
-        echo 'Deployment Successful'
-    }
-
-    failure {
-        echo 'Deployment Failed'
-    }
-}
-
 }
