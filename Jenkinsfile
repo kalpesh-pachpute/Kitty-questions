@@ -26,7 +26,7 @@ pipeline {
         stage('Deploy Containers') {
             steps {
                 bat 'docker compose down'
-                bat 'docker compose up -d'
+                bat 'docker compose --build -d'
             }
         }
 
